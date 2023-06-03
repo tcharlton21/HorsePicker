@@ -6,7 +6,7 @@ horse_headers = ["PP", "Name", "B", "B1Rk", "Diff", "B2Rk", "RTAD", "xSt4Jky", "
 race_dict = {}
 horse_dict = {}
 
-with open("5-27-16forBill.txt", "r") as csvfile:
+with open("05-27-2016JCP.txt", "r") as csvfile:
     reader = csv.reader(csvfile)
     race_id = 0
     horseBool = False
@@ -29,9 +29,9 @@ with open("5-27-16forBill.txt", "r") as csvfile:
             # Assign the values to variables, ignoring additional values
             track_name, race_number, distance, surface, date_time, *_ = values
 
-            next(reader)
+            row = next(reader)
             race_description = row[0]
-            next(reader)
+            row = next(reader)
             available_bets = row[0]
             race_dict[race_id] = {
                 'race_id': race_id,
@@ -47,8 +47,9 @@ with open("5-27-16forBill.txt", "r") as csvfile:
             next(reader)
             next(reader)
         # Process horse info
-        if race_id not in horse_dict and horseBool == True:
-            horse_dict[race_id] = []
+        if horseBool == True:
+            if race_id not in horse_dict:
+                horse_dict[race_id] = []
             horse_dict[race_id].append({k: v for k, v in zip(horse_headers, row)})
 
 # Writing race information to a CSV file
